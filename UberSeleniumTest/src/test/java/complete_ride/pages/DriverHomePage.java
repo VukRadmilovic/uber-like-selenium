@@ -31,6 +31,9 @@ public class DriverHomePage {
     @FindBy(id = "finish")
     WebElement finishButton;
 
+    @FindBy(id = "logout")
+    WebElement logoutButton;
+
     public DriverHomePage(WebDriver driver){
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -70,6 +73,10 @@ public class DriverHomePage {
                 }
             }
         }
+    }
+
+    public void logout(){
+        logoutButton.click();
     }
 
     public void waitUntilPageIsLoaded(){

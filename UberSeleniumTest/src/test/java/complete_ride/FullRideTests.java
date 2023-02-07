@@ -9,7 +9,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class CompleteRideTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+public class FullRideTests {
     public WebDriver driverPassenger;
     public WebDriver driverDriver;
 
@@ -30,6 +31,7 @@ public class CompleteRideTest {
     }
 
     @DisplayName("Testing the full ride with driver accepting and completing it")
+    @Order(2)
     @Test
     public void FullRideWithComplete() {
         LoginPage loginPageDriver = new LoginPage(driverDriver);
@@ -94,5 +96,67 @@ public class CompleteRideTest {
         driverHome.finishRide();
 
         Assertions.assertTrue(passengerHome.reviewWindowAppeared());
+
+        passengerHome.logout();
+        driverHome.logout();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @DisplayName("Testing ordering the ride but no driver being found")
+    @Order(1)
+    @Test
+    public void OrderRideButNoDriver() {
+        LoginPage loginPagePassenger = new LoginPage(driverPassenger);
+        loginPagePassenger.waitUntilPageIsLoaded();
+
+        loginPagePassenger.insertEmail("passenger1@mail.com");
+        loginPagePassenger.insertPassword("Test2test");
+        loginPagePassenger.clickOnLogin();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        PassengerHomePage passengerHome = new PassengerHomePage(driverPassenger);
+        passengerHome.waitUntilPageIsLoaded();
+
+        passengerHome.ToggleMap();
+        Assertions.assertEquals("Unesi u polja", passengerHome.GetMapButtonText());
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        Actions actions = new Actions(driverPassenger);
+        actions.moveToElement(passengerHome.getMap()).click().perform();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        actions.moveByOffset(-100, -100).click().perform();
+        passengerHome.ClickOnOrder();
+        passengerHome.SelectVehicleType("Standard");
+        passengerHome.ClickOnKidTransportCheckbox();
+        passengerHome.ClickOnTab2();
+        passengerHome.ClickOnTab3();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        passengerHome.ClickOnPay();
+        Assertions.assertTrue(passengerHome.driverNotFoundWindowAppeared());
+        passengerHome.logout();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

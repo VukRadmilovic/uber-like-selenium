@@ -47,6 +47,12 @@ public class PassengerHomePage {
     @FindBy(id = "rating")
     WebElement ratingWindow;
 
+    @FindBy(id = "driverNotFound")
+    WebElement driverNotFoundWindow;
+
+    @FindBy(id = "logout")
+    WebElement logoutButton;
+
     public void SelectVehicleType(String type){
 
         WebElement select = driver.findElement(By.id("mat-select-0"));
@@ -123,6 +129,16 @@ public class PassengerHomePage {
         WebDriverWait wait = new WebDriverWait(driver, Duration.of(5, ChronoUnit.SECONDS));
         wait.until(ExpectedConditions.visibilityOf(this.ratingWindow));
         return this.ratingWindow.isDisplayed();
+    }
+
+    public boolean driverNotFoundWindowAppeared() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.of(5, ChronoUnit.SECONDS));
+        wait.until(ExpectedConditions.visibilityOf(this.driverNotFoundWindow));
+        return this.driverNotFoundWindow.isDisplayed();
+    }
+
+    public void logout(){
+        logoutButton.click();
     }
 
     public void addFavoriteRide(){
