@@ -41,25 +41,35 @@ public class OrderRideTest {
 
     @ParameterizedTest
     @DisplayName("Test Order Ride for Passenger")
-    @CsvSource({"Standard", "Luxury", "Van"})
-    public void OrderRide(String type) {
-        LoginPage loginPageDriver = new LoginPage(driverDriver);
-        loginPageDriver.waitUntilPageIsLoaded();
+    @CsvSource({"true", "false"})
+    public void OrderRide(String driverLogin) {
+        if(driverLogin.equals("true")) {
+            LoginPage loginPageDriver = new LoginPage(driverDriver);
+            loginPageDriver.waitUntilPageIsLoaded();
 
-        loginPageDriver.insertEmail("driver1@mail.com");
-        loginPageDriver.insertPassword("Test2test");
-        loginPageDriver.clickOnLogin();
+            loginPageDriver.insertEmail("driver1@mail.com");
+            loginPageDriver.insertPassword("Test2test");
 
-        DriverHomePage driverHome = new DriverHomePage(driverDriver);
-        driverHome.waitUntilPageIsLoaded();
-
+            loginPageDriver.clickOnLogin();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            DriverHomePage driverHome = new DriverHomePage(driverDriver);
+            driverHome.waitUntilPageIsLoaded();
+        }
         LoginPage loginPagePassenger = new LoginPage(driverPassenger);
         loginPagePassenger.waitUntilPageIsLoaded();
 
         loginPagePassenger.insertEmail("passenger1@mail.com");
         loginPagePassenger.insertPassword("Test2test");
         loginPagePassenger.clickOnLogin();
-
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         PassengerHomePage passengerHome = new PassengerHomePage(driverPassenger);
         passengerHome.waitUntilPageIsLoaded();
 
@@ -81,7 +91,7 @@ public class OrderRideTest {
         }
         actions.moveByOffset(-100, -100).click().perform();
         passengerHome.ClickOnOrder();
-        passengerHome.SelectVehicleType(type);
+        passengerHome.SelectVehicleType("Standard");
         passengerHome.ClickOnKidTransportCheckbox();
         passengerHome.ClickOnTab2();
         passengerHome.ClickOnTab3();
@@ -91,7 +101,10 @@ public class OrderRideTest {
             throw new RuntimeException(e);
         }
         passengerHome.ClickOnPay();
-
-
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
