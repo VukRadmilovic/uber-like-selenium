@@ -27,24 +27,22 @@ public class PassengerHomePage {
     @FindBy(id = "map")
     WebElement map_element;
 
-
-
     @FindBy(id="mat-select-value-8")
     WebElement optionVan;
 
     public void SelectVehicleType(String type){
 
-        WebElement select = driver.findElement(By.id("mat-select-4"));
+        WebElement select = driver.findElement(By.id("mat-select-0"));
 
 
         select.click();
 
-        WebElement optionStandard = driver.findElement(By.id("mat-select-value-6"));
-        WebElement optionLuxury = driver.findElement(By.id("mat-select-value-7"));
-        WebElement optionVan = driver.findElement(By.id("mat-option-11"));
-        if(type == "Standart") optionStandard.click();
-        if(type == "Luxury") optionLuxury.click();
-        if(type == "Van") optionVan.click();
+        WebElement optionStandard = driver.findElement(By.id("mat-option-0"));
+        WebElement optionLuxury = driver.findElement(By.id("mat-option-1"));
+        WebElement optionVan = driver.findElement(By.id("mat-option-1"));
+        if(type.equals("Standard")) optionStandard.click();
+        if(type.equals("Luxury")) optionLuxury.click();
+        if(type.equals("Van")) optionVan.click();
     }
 
     public WebElement getMap(){
@@ -74,7 +72,28 @@ public class PassengerHomePage {
         wait.until(ExpectedConditions.visibilityOf(this.searchRideForm));
     }
 
-    public void ClickOnMap(){
-        map_element.click();
+    public void ClickOnTab2(){
+        WebElement tab = driver.findElement(By.id("cdk-step-label-0-1"));
+        tab.click();
+    }
+
+    public void ClickOnTab3(){
+        WebElement tab = driver.findElement(By.id("cdk-step-label-0-2"));
+        tab.click();
+    }
+
+    public void ClickOnPay(){
+        WebElement pay = driver.findElement(By.id("pay-button"));
+        pay.click();
+    }
+
+    public void ClickOnKidTransportCheckbox(){
+        WebElement checkbox = driver.findElement(By.id("mat-mdc-checkbox-1-input"));
+        checkbox.click();
+    }
+
+    public void ClickOnPetTransportCheckbox(){
+        WebElement checkbox = driver.findElement(By.id("mat-mdc-checkbox-2-input"));
+        checkbox.click();
     }
 }

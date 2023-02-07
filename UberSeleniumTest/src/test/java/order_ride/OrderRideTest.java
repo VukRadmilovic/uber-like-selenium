@@ -42,8 +42,8 @@ public class OrderRideTest {
     @ParameterizedTest
     @DisplayName("Test Order Ride for Passenger")
     @CsvSource({"Standard", "Luxury", "Van"})
-    public void login(String type) {
-        /*LoginPage loginPageDriver = new LoginPage(driverDriver);
+    public void OrderRide(String type) {
+        LoginPage loginPageDriver = new LoginPage(driverDriver);
         loginPageDriver.waitUntilPageIsLoaded();
 
         loginPageDriver.insertEmail("driver1@mail.com");
@@ -52,7 +52,7 @@ public class OrderRideTest {
 
         DriverHomePage driverHome = new DriverHomePage(driverDriver);
         driverHome.waitUntilPageIsLoaded();
-*/
+
         LoginPage loginPagePassenger = new LoginPage(driverPassenger);
         loginPagePassenger.waitUntilPageIsLoaded();
 
@@ -81,16 +81,17 @@ public class OrderRideTest {
         }
         actions.moveByOffset(-100, -100).click().perform();
         passengerHome.ClickOnOrder();
+        passengerHome.SelectVehicleType(type);
+        passengerHome.ClickOnKidTransportCheckbox();
+        passengerHome.ClickOnTab2();
+        passengerHome.ClickOnTab3();
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        passengerHome.SelectVehicleType(type);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        passengerHome.ClickOnPay();
+
+
     }
 }
